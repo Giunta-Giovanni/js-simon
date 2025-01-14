@@ -3,11 +3,12 @@
 
 
 // salvare i dati di input
-    const form = document.getElementById ('answers-form');          //user form 
-    const number = generateRandomNumbers(5, 1, 50);                 //numeri generati casualmente
-    const button = document.querySelector('button');                //pulsante di invio dati
+    const form = document.getElementById ('answers-form');                 //user form 
+    const number = generateRandomNumbers(5, 1, 50);                        //numeri generati casualmente
+    const inputNumber = document.querySelectorAll ('#input-group input')   // input numeri user
+    const button = document.querySelector('button');                       //pulsante di invio dati
 
-console.log('questi sono gli input', form, number, button);
+// console.log('questi sono gli input', form, number,inputNumber, button);
 
 
 // salvare i dati di output 
@@ -15,9 +16,9 @@ console.log('questi sono gli input', form, number, button);
     const instructions = document.getElementById ('instructions')          //instruzione utente
     const listNumber = document.getElementById ('numbers-list');           //ul contenente i li con i numeri
     const messaggio = document.getElementById ('message')                  // messaggio risultato
-    const inputNumber = document.querySelectorAll ('#input-group input')   // input numeri user
 
-    console.log('questi sono gli output', countdown, instructions, listNumber, messaggio, inputNumber);
+
+    // console.log('questi sono gli output', countDown, instructions, listNumber, messaggio);
 
 
 
@@ -37,46 +38,95 @@ for (let i = 0; i < 5; i++){
 listNumber.innerHTML = items;
 
 
-// funzione di countdown di 30 secondi
+//funzione di countdown di 30 secondi
 
-    //settiamo i secondi di partenza
-    let seconds = 5;
-    countDown.innerHTML = seconds;
+//settiamo i secondi di partenza
+let seconds = 0;
+countDown.innerHTML = seconds;
 
-    // settiamo il setInterval
-    const contoAllaRovescia = setInterval(() => {
+// settiamo il setInterval
+const contoAllaRovescia = setInterval(() => {
 
-        // se il conto arriva a 0
-        if (seconds === 0) {
+    // se il conto arriva a 0
+    if (seconds === 0) {
 
-            // fermo l'esecuzione
-            clearInterval(contoAllaRovescia);
+        // fermo l'esecuzione
+        clearInterval(contoAllaRovescia);
 
-            // modifico le instruzioni all'utente in uscita
-            instructions.innerHTML = "Inserisci i numeri che ti ricordi, non importa l'ordine!";
+        // modifico le instruzioni all'utente in uscita
+        instructions.innerHTML = "Inserisci i numeri che ti ricordi, non importa l'ordine!";
 
-            // elimino il numero una volta che il countdown arriva a 0
-            countDown.innerHTML = ''; 
+        // elimino il numero una volta che il countdown arriva a 0
+        countDown.innerHTML = ''; 
 
-            // nascondo la lista di numeri(listNumber)
-            listNumber.classList.add ('d-none');
+        // nascondo la lista di numeri(listNumber)
+        listNumber.classList.add ('d-none');
 
-            // mostro il form con gli input dell'utente
-            form.classList.remove('d-none')
+        // mostro il form con gli input dell'utente
+        form.classList.remove('d-none')
 
+    }else{
 
-
-        }else{
-
-            // diminuisco il conto di 1
-            seconds = seconds - 1;
-            
-            // mostro l'output di countdown
-            countDown.innerHTML = seconds;
-        }
+        // diminuisco il conto di 1
+        seconds = seconds - 1;
+        
+        // mostro l'output di countdown
+        countDown.innerHTML = seconds;
+    }
 
 
-    }, 1000) //1000 sta a identificare i secondi di asincronicita cioe di calcolo
+}, 1000) //secondi di asincronicita 
+
+
+// // tramite l'invio del form prendiamo i valori dei campi selezionati e li scriviamo nei blocchi
+form.addEventListener('submit', (event) => {
+    // blocco l'invio dei form
+    event.preventDefault();
+    
+    numeriscelti = []
+
+    for(let i = 0; i < inputNumber.length; i++){
+        numberValue = parseInt(inputNumber[i].value.trim());
+        numeriscelti.push(numberValue)
+    }
+
+    console.log(numeriscelti);
+
+    // attivare la convalidazione
+    // const differenze1 = numeriscelti.filter(item => !number.includes(item));
+
+
+
+    const differenze1 = validazione(numeriscelti, number)
+    const differenze2 = validazione(number, numeriscelti)
+    
+
+
+
+
+
+    if (differenze1.length === 0 && differenze2.length === 0) {
+        console.log("Gli array sono identici.");
+    } else if (differenze1.length === 1 && differenze2.length === 1) {
+        console.log("Gli array sono diversi di 1.");
+    } else if (differenze1.length === 2 && differenze2.length === 2) {
+    console.log("Gli array sono diversi di 2.");
+    } else if (differenze1.length === 3 && differenze2.length === 3) {
+        console.log("Gli array sono diversi di 3.");
+    }else if (differenze1.length === 4 && differenze2.length === 4) {
+        console.log("Gli array sono diversi di 4.");
+    }else{
+        console.log("Gli array sono diversi.");
+    }
+
+
+
+})
+
+
+
+
+
 
 
 
@@ -112,6 +162,20 @@ function generateRandomNumbers(totalNumbers, min, max){
     }
     return randomNumbers;
 }
+
+// function validazione dei due array
+function validazione (arraycheck, arrayverify){
+    const result = [];
+
+    for (let i = 0; i < arraycheck.length; i++) {
+        const item = arraycheck[i];
+            if (!arrayverify.includes(item)) {
+                result.push(item);
+            }
+        }
+    return result
+}
+
 
 
 
