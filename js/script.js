@@ -59,6 +59,11 @@ listNumber.innerHTML = items;
             countDown.innerHTML = ''; 
 
             // nascondo la lista di numeri(listNumber)
+            listNumber.classList.add ('d-none');
+
+            // mostro il form con gli input dell'utente
+            form.classList.remove('d-none')
+
 
 
         }else{
