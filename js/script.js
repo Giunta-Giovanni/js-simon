@@ -57,6 +57,11 @@ console.log('questi sono gli input', listNumber, form, button);
 
 
 // funzione per generare numeri casuali con un min e un max number
+function randomNumberRange(min, max){
+    const numeroGenerato = Math.floor(Math.random() * (max - min + 1) + min)
+    return numeroGenerato
+}
 
+console.log(randomNumberRange(1,40));
 
 //generare le liste
