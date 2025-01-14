@@ -85,16 +85,17 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     
     // creo un array vuoto che immagazzina i numeri scelti dall'utente
-    numeriscelti = []
+    const numeriscelti = []
 
     // creo un ciclo per ricavarmi i valori inseriti negli input
     for(let i = 0; i < inputNumber.length; i++){
 
         // mi salvo il valore
-        numberValue = parseInt(inputNumber[i].value.trim());
+        const numberValue = parseInt(inputNumber[i].value.trim());
 
         // lo inserisco nell'array numeriscelti
         numeriscelti.push(numberValue)
+
     }
 
     // console.log(numeriscelti);
@@ -166,12 +167,10 @@ form.addEventListener('submit', (event) => {
         // console.log("LOSER");
     }
 
+    // resetta il form
+    form.reset()
+
 })
-
-
-
-
-
 
 
 
