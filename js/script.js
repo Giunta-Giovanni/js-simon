@@ -8,24 +8,55 @@
     const form = document.getElementById ('answers-form')           //user form 
     const button = document.querySelector('button');                //pulsante di invio dati
 
-console.log('questi sono gli input', listNumber, button);
+console.log('questi sono gli input', listNumber, form, button);
 
 
 // salvare i dati di output 
-    const countdown = document.getElementById ('countdown');               //countdown
+    const countDown = document.getElementById ('countdown');               //countdown
     const instructions = document.getElementById ('instructions')          //instruzione utente
     const messaggio = document.getElementById ('message')                  // messaggio risultato
     const inputNumber = document.querySelectorAll ('#input-group input')   // input numeri user
 
-    console.log('questi sono gli output', countdown, messaggio, inputNumber);
-
-
+    console.log('questi sono gli output', countdown, instructions, messaggio, inputNumber);
 
 
 
 
 // funzione di countdown di 30 secondi
 
+    //settiamo i secondi di partenza
+    let seconds = 5;
+    countDown.innerHTML = seconds;
+
+    // settiamo il setInterval
+    const contoAllaRovescia = setInterval(() => {
+
+        // se il conto arriva a 0
+        if (seconds === 0) {
+
+            // fermo l'esecuzione
+            clearInterval(contoAllaRovescia);
+
+            // modifico le instruzioni all'utente in uscita
+            instructions.innerHTML = "Inserisci i numeri che ti ricordi, non importa l'ordine!";
+
+            // elimino il numero una volta che il countdown arriva a 0
+            countDown.innerHTML = ''; 
+
+        }else{
+
+            // diminuisco il conto di 1
+            seconds = seconds - 1;
+            
+            // mostro l'output di countdown
+            countDown.innerHTML = seconds;
+        }
+
+
+    }, 1000) //1000 sta a identificare i secondi di asincronicita cioe di calcolo
+
+
 // funzione per generare numeri casuali con un min e un max number
 
 
+//generare le liste
