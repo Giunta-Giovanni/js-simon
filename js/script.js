@@ -80,46 +80,91 @@ const contoAllaRovescia = setInterval(() => {
 
 // // tramite l'invio del form prendiamo i valori dei campi selezionati e li scriviamo nei blocchi
 form.addEventListener('submit', (event) => {
+
     // blocco l'invio dei form
     event.preventDefault();
     
+    // creo un array vuoto che immagazzina i numeri scelti dall'utente
     numeriscelti = []
 
+    // creo un ciclo per ricavarmi i valori inseriti negli input
     for(let i = 0; i < inputNumber.length; i++){
+
+        // mi salvo il valore
         numberValue = parseInt(inputNumber[i].value.trim());
+
+        // lo inserisco nell'array numeriscelti
         numeriscelti.push(numberValue)
     }
 
-    console.log(numeriscelti);
-
-    // attivare la convalidazione
-    // const differenze1 = numeriscelti.filter(item => !number.includes(item));
+    // console.log(numeriscelti);
 
 
-
+    // convalido i dati usando la funzione validazione
     const differenze1 = validazione(numeriscelti, number)
     const differenze2 = validazione(number, numeriscelti)
     
 
-
-
-
-
+    // se gli array sono entrambi vuoti significa che i numeri sono stati tutti indovinati
     if (differenze1.length === 0 && differenze2.length === 0) {
-        console.log("Gli array sono identici.");
+
+        // inserisco messaggio in html
+        messaggio.innerHTML = 'HAI VINTO';
+        
+        // modifico lo stile del testo
+        messaggio.classList.remove('text-danger')
+        messaggio.classList.add('text-success')
+        // console.log("HAI VINTO");
+
     } else if (differenze1.length === 1 && differenze2.length === 1) {
-        console.log("Gli array sono diversi di 1.");
+
+        // inserisco messaggio in html
+        messaggio.innerHTML = 'NE HAI INDOVINATE 4';
+        
+        // modifico lo stile del testo
+        messaggio.classList.remove('text-danger')
+        messaggio.classList.add('text-success')
+        // console.log("NE HAI INDOVINATE 4");
+
     } else if (differenze1.length === 2 && differenze2.length === 2) {
-    console.log("Gli array sono diversi di 2.");
+
+        // inserisco messaggio in html
+        messaggio.innerHTML = 'NE HAI INDOVINATE 3';
+
+        // modifico lo stile del testo
+        messaggio.classList.remove('text-danger')
+        messaggio.classList.add('text-success')
+        // console.log("NE HAI INDOVINATE 3");
+
     } else if (differenze1.length === 3 && differenze2.length === 3) {
-        console.log("Gli array sono diversi di 3.");
+
+        // inserisco messaggio in html
+        messaggio.innerHTML = 'NE HAI INDOVINATE 2';
+
+        // modifico lo stile del testo
+        messaggio.classList.remove('text-danger')
+        messaggio.classList.add('text-success')
+        // console.log("NE HAI INDOVINATE 2");
+
     }else if (differenze1.length === 4 && differenze2.length === 4) {
-        console.log("Gli array sono diversi di 4.");
+
+        // inserisco messaggio in html
+        messaggio.innerHTML = 'NE HAI INDOVINATA 1';
+
+        // modifico lo stile del testo
+        messaggio.classList.remove('text-danger')
+        messaggio.classList.add('text-success')
+        // console.log("NE HAI INDOVINATA 1");
     }else{
-        console.log("Gli array sono diversi.");
+
+        // inserisco messaggio in html
+        messaggio.innerHTML = 'LOSER';
+
+        // modifico lo stile del testo
+        messaggio.classList.remove('text-success')
+        messaggio.classList.add('text-danger')
+        // console.log("LOSER");
     }
-
-
 
 })
 
@@ -165,14 +210,25 @@ function generateRandomNumbers(totalNumbers, min, max){
 
 // function validazione dei due array
 function validazione (arraycheck, arrayverify){
+
+    // genero un array vuoto che immagazzina il risultato
     const result = [];
 
+    // creo un ciclo che mi elimina gli elementi uguali e mi ritorna quelli diversi
     for (let i = 0; i < arraycheck.length; i++) {
+
+        // mi salvo l'elemento iesimo
         const item = arraycheck[i];
+
+            //se l'array che sto validando non include gli elementi iesimi
             if (!arrayverify.includes(item)) {
+
+                // salvami quegli elementi nell'array
                 result.push(item);
             }
         }
+
+    // ritornarmi l'array
     return result
 }
 
