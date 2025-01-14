@@ -2,13 +2,24 @@
 // Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
 
 
-// salvare le variabili di input
-    // salvare la lista dove aggiungere i li con i numeri che verranno creati 
-    // il pulsante validatura
+// salvare i dati di input
+    
+    const listNumber = document.getElementById ('numbers-list');    //ul contenente i li con i numeri
+    const form = document.getElementById ('answers-form')           //user form 
+    const button = document.querySelector('button');                //pulsante di invio dati
 
-// salvare le variabili di output
-    // gli input che mostrano i numeri casuali
-    // il paragrafo che mostra il countdown
+console.log('questi sono gli input', listNumber, button);
+
+
+// salvare i dati di output 
+    const countdown = document.getElementById ('countdown');               //countdown
+    const instructions = document.getElementById ('instructions')          //instruzione utente
+    const messaggio = document.getElementById ('message')                  // messaggio risultato
+    const inputNumber = document.querySelectorAll ('#input-group input')   // input numeri user
+
+    console.log('questi sono gli output', countdown, messaggio, inputNumber);
+
+
 
 
 
