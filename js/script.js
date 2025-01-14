@@ -3,16 +3,17 @@
 
 
 // salvare i dati di input
-    const form = document.getElementById ('answers-form')           //user form 
+    const form = document.getElementById ('answers-form');          //user form 
+    const number = generateRandomNumbers(5, 1, 50);                 //numeri generati casualmente
     const button = document.querySelector('button');                //pulsante di invio dati
 
-console.log('questi sono gli input', form, button);
+console.log('questi sono gli input', form, number, button);
 
 
 // salvare i dati di output 
     const countDown = document.getElementById ('countdown');               //countdown
     const instructions = document.getElementById ('instructions')          //instruzione utente
-    const listNumber = document.getElementById ('numbers-list');    //ul contenente i li con i numeri
+    const listNumber = document.getElementById ('numbers-list');           //ul contenente i li con i numeri
     const messaggio = document.getElementById ('message')                  // messaggio risultato
     const inputNumber = document.querySelectorAll ('#input-group input')   // input numeri user
 
@@ -20,36 +21,6 @@ console.log('questi sono gli input', form, button);
 
 
 
-
-
-
-
-
-
-
-
-// genero i numeri da inserire all'interno dei li
-
-const randomNumbers = []; // array inizialmente vuoto che conterrà 5 numeri casuali
-const totalNumbers = 5 // Numero di numeri casuali da generare
-
-// ciclo per geerare 5 numeri casuali unici
-for (let i = 0; randomNumbers.length < totalNumbers; i++){
-    const numeriesimo = randomNumberRange(1, 50);
-
-    // verifica se il numero non è gia presente nell'array
-    if(!randomNumbers.includes(numeriesimo)){
-        // se non è presente lo aggiungo all'array
-        randomNumbers.push(numeriesimo);
-
-        // Stampa il numero aggiunto 
-        console.log(`Numero aggiunto: ${numeriesimo}`);
-    } else{
-         
-        // Stampa se il numero è duplicato (opzionale, per debug)
-        console.log(`Numero duplicato ignorato: ${numeriesimo}`);
-    }  
-}
 
 //genero i li
 // inizializzazione variabile di accumulo
@@ -59,7 +30,7 @@ let items = '';
 for (let i = 0; i < 5; i++){
 
     // aggiorna items con stringa
-    items += `<li>${randomNumbers[i]}<li>`;
+    items += `<li>${number[i]}<li>`;
 }
 
 // aggiungi tutti gli items in output
@@ -87,6 +58,9 @@ listNumber.innerHTML = items;
             // elimino il numero una volta che il countdown arriva a 0
             countDown.innerHTML = ''; 
 
+            // nascondo la lista di numeri(listNumber)
+
+
         }else{
 
             // diminuisco il conto di 1
@@ -100,10 +74,38 @@ listNumber.innerHTML = items;
     }, 1000) //1000 sta a identificare i secondi di asincronicita cioe di calcolo
 
 
+
+// FUNCTIONS
+
 // funzione per generare numeri casuali con un min e un max number
 function randomNumberRange(min, max){
     const numeroGenerato = Math.floor(Math.random() * (max - min + 1) + min)
     return numeroGenerato
+}
+
+// funzione per generare numeri casuali unici
+function generateRandomNumbers(totalNumbers, min, max){
+
+    const randomNumbers = []; // array inizialmente vuoto che conterrà 5 numeri casuali
+
+    // ciclo per geerare 5 numeri casuali unici
+    for (let i = 0; randomNumbers.length < totalNumbers; i++){
+        const numeriesimo = randomNumberRange(min, max);
+
+        // verifica se il numero non è gia presente nell'array
+        if(!randomNumbers.includes(numeriesimo)){
+            // se non è presente lo aggiungo all'array
+            randomNumbers.push(numeriesimo);
+
+            // Stampa il numero aggiunto 
+            console.log(`Numero aggiunto: ${numeriesimo}`);
+        } else{
+            
+            // Stampa se il numero è duplicato (opzionale, per debug)
+            console.log(`Numero duplicato ignorato: ${numeriesimo}`);
+        }  
+    }
+    return randomNumbers;
 }
 
 
