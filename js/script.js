@@ -1,29 +1,27 @@
-// Visualizzare in pagina 5 numeri casuali. Da lì parte un timer di 30 secondi. Dopo 30 secondi i numeri scompaiono e appaiono invece 5 input in cui l’utente deve inserire i numeri che ha visto precedentemente, nell’ordine che preferisce.
+// Visualizzare in pagina 5 numeri casuali. Da lì parte un timer di 30 secondi. Dopo 30 secondi i numeri scompaiono e appaiono invece 5 input in cui l’utente deve inserire i numeri che ha visto precedentemente, nell’ordine che preferisce. (√)
+
+
 // Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
 
 
 // salvare i dati di input
-    const form = document.getElementById ('answers-form');                 //user form 
-    const number = generateRandomNumbers(5, 1, 50);                        //numeri generati casualmente
-    const inputNumber = document.querySelectorAll ('#input-group input')   // input numeri user
-    const button = document.querySelector('button');                       //pulsante di invio dati
+    const form = document.getElementById ('answers-form'); //user form 
+    const number = generateRandomNumbers(5, 1, 50); //numeri generati casualmente
+    const inputNumber = document.querySelectorAll ('#input-group input');// input numeri user
+    const button = document.querySelector('button'); //pulsante di invio dati
 
 // console.log('questi sono gli input', form, number,inputNumber, button);
 
-
 // salvare i dati di output 
-    const countDown = document.getElementById ('countdown');               //countdown
-    const instructions = document.getElementById ('instructions')          //instruzione utente
-    const listNumber = document.getElementById ('numbers-list');           //ul contenente i li con i numeri
-    const messaggio = document.getElementById ('message')                  // messaggio risultato
-
+    const countDown = document.getElementById ('countdown'); //countdown
+    const instructions = document.getElementById ('instructions'); //instruzione utente
+    const listNumber = document.getElementById ('numbers-list'); //ul contenente i li con i numeri
+    const messaggio = document.getElementById ('message'); // messaggio risultato
 
     // console.log('questi sono gli output', countDown, instructions, listNumber, messaggio);
 
 
-
-
-//genero i li
+//GENERO I LI
 // inizializzazione variabile di accumulo
 let items = '';
 
@@ -38,10 +36,12 @@ for (let i = 0; i < 5; i++){
 listNumber.innerHTML = items;
 
 
-//funzione di countdown di 30 secondi
+//FUNZIONE di countdown di 30 secondi
 
 //settiamo i secondi di partenza
 let seconds = 0;
+
+// Stampiamo lo start dei secondi a schermo
 countDown.innerHTML = seconds;
 
 // settiamo il setInterval
@@ -70,7 +70,7 @@ const contoAllaRovescia = setInterval(() => {
         // diminuisco il conto di 1
         seconds = seconds - 1;
         
-        // mostro l'output di countdown
+        // // mostro l'output di countdown
         countDown.innerHTML = seconds;
     }
 
@@ -102,64 +102,51 @@ form.addEventListener('submit', (event) => {
 
 
     // convalido i dati usando la funzione validazione
-    const differenze1 = validazione(numeriscelti, number)
-    const differenze2 = validazione(number, numeriscelti)
-    
+    const numeriIndovinati = validazione(numeriscelti, number)
+
+    // Genero messaggio di numeri indovinati
+    const numeriIndovinatimex = `HAI INDOVINATO ${numeriIndovinati.length} NUMERI: ${numeriIndovinati.join(' - ')}`
+    console.log(numeriIndovinati)
 
     // se gli array sono entrambi vuoti significa che i numeri sono stati tutti indovinati
-    if (differenze1.length === 0 && differenze2.length === 0) {
+    if (numeriIndovinati.length === 5) {
 
         // inserisco messaggio in html
-        messaggio.innerHTML = 'HAI VINTO';
+        messaggio.innerHTML = `${numeriIndovinatimex}`;
         
         // modifico lo stile del testo
         messaggio.classList.remove('text-danger')
         messaggio.classList.add('text-success')
         // console.log("HAI VINTO");
 
-    } else if (differenze1.length === 1 && differenze2.length === 1) {
+    } else if (numeriIndovinati.length === 4) {
 
         // inserisco messaggio in html
-        messaggio.innerHTML = 'NE HAI INDOVINATE 4';
-        
-        // modifico lo stile del testo
-        messaggio.classList.remove('text-danger')
-        messaggio.classList.add('text-success')
+        messaggio.innerHTML = `${numeriIndovinatimex}` ;
         // console.log("NE HAI INDOVINATE 4");
 
-    } else if (differenze1.length === 2 && differenze2.length === 2) {
+    } else if (numeriIndovinati.length === 3) {
 
         // inserisco messaggio in html
-        messaggio.innerHTML = 'NE HAI INDOVINATE 3';
-
-        // modifico lo stile del testo
-        messaggio.classList.remove('text-danger')
-        messaggio.classList.add('text-success')
+        messaggio.innerHTML = `${numeriIndovinatimex}`;
         // console.log("NE HAI INDOVINATE 3");
 
-    } else if (differenze1.length === 3 && differenze2.length === 3) {
+    } else if (numeriIndovinati.length === 2) {
 
         // inserisco messaggio in html
-        messaggio.innerHTML = 'NE HAI INDOVINATE 2';
-
-        // modifico lo stile del testo
-        messaggio.classList.remove('text-danger')
-        messaggio.classList.add('text-success')
+        messaggio.innerHTML = `${numeriIndovinatimex}`;
         // console.log("NE HAI INDOVINATE 2");
 
-    }else if (differenze1.length === 4 && differenze2.length === 4) {
+    }else if (numeriIndovinati.length === 1) {
 
         // inserisco messaggio in html
-        messaggio.innerHTML = 'NE HAI INDOVINATA 1';
-
-        // modifico lo stile del testo
-        messaggio.classList.remove('text-danger')
-        messaggio.classList.add('text-success')
+        messaggio.innerHTML = ` ${numeriIndovinatimex}`;
         // console.log("NE HAI INDOVINATA 1");
+
     }else{
 
         // inserisco messaggio in html
-        messaggio.innerHTML = 'LOSER';
+        messaggio.innerHTML = 'NON HAI INDOVINATO NESSUN NUMERO';
 
         // modifico lo stile del testo
         messaggio.classList.remove('text-success')
@@ -167,6 +154,8 @@ form.addEventListener('submit', (event) => {
         // console.log("LOSER");
     }
 
+    // disabilita il click del bottone
+    button.disabled = true
     // resetta il form
     form.reset()
 
@@ -196,15 +185,16 @@ function generateRandomNumbers(totalNumbers, min, max){
             // se non è presente lo aggiungo all'array
             randomNumbers.push(numeriesimo);
 
-            // Stampa il numero aggiunto 
+            // Stampa il numero aggiunto debug( opzionale, per debug)
             console.log(`Numero aggiunto: ${numeriesimo}`);
         } else{
-            
+
             // Stampa se il numero è duplicato (opzionale, per debug)
-            console.log(`Numero duplicato ignorato: ${numeriesimo}`);
+            // console.log(`Numero duplicato ignorato: ${numeriesimo}`);
         }  
     }
     return randomNumbers;
+
 }
 
 // function validazione dei due array
@@ -213,14 +203,14 @@ function validazione (arraycheck, arrayverify){
     // genero un array vuoto che immagazzina il risultato
     const result = [];
 
-    // creo un ciclo che mi elimina gli elementi uguali e mi ritorna quelli diversi
+    // creo un ciclo che mi elimina gli elementi diversi e mi ritorna quelli uguali
     for (let i = 0; i < arraycheck.length; i++) {
 
         // mi salvo l'elemento iesimo
         const item = arraycheck[i];
 
-            //se l'array che sto validando non include gli elementi iesimi
-            if (!arrayverify.includes(item)) {
+            //se l'array che sto validando include gli elementi iesimi e tali elementi non sono gia stati inseriti nell'array risultato
+            if (arrayverify.includes(item) && !result.includes(item)) {
 
                 // salvami quegli elementi nell'array
                 result.push(item);
