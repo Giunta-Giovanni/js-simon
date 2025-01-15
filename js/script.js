@@ -39,7 +39,7 @@ listNumber.innerHTML = items;
 //FUNZIONE di countdown di 30 secondi
 
 //settiamo i secondi di partenza
-let seconds = 0;
+let seconds = 10;
 
 // Stampiamo lo start dei secondi a schermo
 countDown.innerHTML = seconds;
@@ -80,12 +80,14 @@ const contoAllaRovescia = setInterval(() => {
 
 // // tramite l'invio del form prendiamo i valori dei campi selezionati e li scriviamo nei blocchi
 form.addEventListener('submit', (event) => {
-
     // blocco l'invio dei form
     event.preventDefault();
     
     // creo un array vuoto che immagazzina i numeri scelti dall'utente
     const numeriscelti = []
+
+    // salvo la variabile duplicato inizialmente falsa
+    let duplicato = false
 
     // creo un ciclo per ricavarmi i valori inseriti negli input
     for(let i = 0; i < inputNumber.length; i++){
@@ -93,13 +95,27 @@ form.addEventListener('submit', (event) => {
         // mi salvo il valore
         const numberValue = parseInt(inputNumber[i].value.trim());
 
+        // Controlla se il numero è già presente nell'array (per evitare duplicati)
+        if(numeriscelti.includes(numberValue) ){
+
+            // modifica il valore di duplicato in vero
+            duplicato = true;
+            break
+        }
+
         // lo inserisco nell'array numeriscelti
         numeriscelti.push(numberValue)
 
     }
-
     // console.log(numeriscelti);
 
+
+    if(duplicato){
+        // Mostra un messaggio di errore se ci sono duplicati
+        messaggio.innerHTML = "Non puoi inserire numeri duplicati!";
+        messaggio.classList.remove('text-success');
+        messaggio.classList.add('text-danger');
+    }else{
 
     // convalido i dati usando la funzione validazione
     const numeriIndovinati = validazione(numeriscelti, number)
@@ -108,15 +124,16 @@ form.addEventListener('submit', (event) => {
     const numeriIndovinatimex = `HAI INDOVINATO ${numeriIndovinati.length} NUMERI: ${numeriIndovinati.join(' - ')}`
     console.log(numeriIndovinati)
 
+    // setto lo stile del testo del messaggio
+    messaggio.classList.add('text-success')
+    messaggio.classList.remove('text-danger');
+
     // se gli array sono entrambi vuoti significa che i numeri sono stati tutti indovinati
     if (numeriIndovinati.length === 5) {
 
         // inserisco messaggio in html
         messaggio.innerHTML = `${numeriIndovinatimex}`;
         
-        // modifico lo stile del testo
-        messaggio.classList.remove('text-danger')
-        messaggio.classList.add('text-success')
         // console.log("HAI VINTO");
 
     } else if (numeriIndovinati.length === 4) {
@@ -158,6 +175,7 @@ form.addEventListener('submit', (event) => {
     button.disabled = true
     // resetta il form
     form.reset()
+    }
 
 })
 
