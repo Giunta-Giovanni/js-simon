@@ -1,27 +1,23 @@
+// LOGICA JS-SIMON
 // Visualizzare in pagina 5 numeri casuali. Da lì parte un timer di 30 secondi. Dopo 30 secondi i numeri scompaiono e appaiono invece 5 input in cui l’utente deve inserire i numeri che ha visto precedentemente, nell’ordine che preferisce. (√)
+// Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati. √
 
 
-// Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
+// Elementi del DOM
+const form = document.getElementById ('answers-form'); //user form 
+const inputNumber = document.querySelectorAll ('#input-group input');// numeri scelti
+const button = document.querySelector('button'); //pulsante di invio dati
+const countDown = document.getElementById ('countdown'); //countdown
+const instructions = document.getElementById ('instructions'); //instruzione utente
+const listNumber = document.getElementById ('numbers-list'); //lista numerix
+const messaggio = document.getElementById ('message'); // messaggio risultato
 
 
-// salvare i dati di input
-    const form = document.getElementById ('answers-form'); //user form 
-    const number = generateRandomNumbers(5, 1, 50); //numeri generati casualmente
-    const inputNumber = document.querySelectorAll ('#input-group input');// input numeri user
-    const button = document.querySelector('button'); //pulsante di invio dati
+//GENERO GLI ELEMENTI DELLA LISTA
+// generazione numeri casuali
+const number = generateRandomNumbers(5, 1, 50);
+console.log('questi sono i numeri da indovinare',number);
 
-// console.log('questi sono gli input', form, number,inputNumber, button);
-
-// salvare i dati di output 
-    const countDown = document.getElementById ('countdown'); //countdown
-    const instructions = document.getElementById ('instructions'); //instruzione utente
-    const listNumber = document.getElementById ('numbers-list'); //ul contenente i li con i numeri
-    const messaggio = document.getElementById ('message'); // messaggio risultato
-
-    // console.log('questi sono gli output', countDown, instructions, listNumber, messaggio);
-
-
-//GENERO I LI
 // inizializzazione variabile di accumulo
 let items = '';
 
@@ -35,9 +31,7 @@ for (let i = 0; i < 5; i++){
 // aggiungi tutti gli items in output
 listNumber.innerHTML = items;
 
-
-//FUNZIONE di countdown di 30 secondi
-
+//COUNTDOWN
 //settiamo i secondi di partenza
 let seconds = 10;
 
@@ -49,39 +43,27 @@ const contoAllaRovescia = setInterval(() => {
 
     // se il conto arriva a 0
     if (seconds === 0) {
-
         // fermo l'esecuzione
         clearInterval(contoAllaRovescia);
-
         // modifico le instruzioni all'utente in uscita
         instructions.innerHTML = "Inserisci i numeri che ti ricordi, non importa l'ordine!";
-
         // elimino il numero una volta che il countdown arriva a 0
         countDown.innerHTML = ''; 
-
         // nascondo la lista di numeri(listNumber)
         listNumber.classList.add ('d-none');
-
         // mostro il form con gli input dell'utente
         form.classList.remove('d-none')
-
     }else{
-
         // diminuisco il conto di 1
         seconds = seconds - 1;
-        
-        // // mostro l'output di countdown
+        // mostro l'output di countdown
         countDown.innerHTML = seconds;
     }
+}, 1000) 
 
-
-}, 1000) //secondi di asincronicita 
-
-
-// // tramite l'invio del form prendiamo i valori dei campi selezionati e li scriviamo nei blocchi
+// Gestione del form
 form.addEventListener('submit', (event) => {
-    // blocco l'invio dei form
-    event.preventDefault();
+    event.preventDefault(); // blocco l'invio dei form
     
     // creo un array vuoto che immagazzina i numeri scelti dall'utente
     const numeriscelti = []
@@ -105,10 +87,10 @@ form.addEventListener('submit', (event) => {
 
         // lo inserisco nell'array numeriscelti
         numeriscelti.push(numberValue)
-
     }
-    // console.log(numeriscelti);
 
+    // debug numeri scelti in console.log
+    console.log("questi sono i numeri che ha scelto l'utente", numeriscelti);
 
     if(duplicato){
         // Mostra un messaggio di errore se ci sono duplicati
@@ -116,16 +98,17 @@ form.addEventListener('submit', (event) => {
         messaggio.classList.remove('text-success');
         messaggio.classList.add('text-danger');
     }else{
-
-    // convalido i dati usando la funzione validazione
-    const numeriIndovinati = validazione(numeriscelti, number)
+    // convalido i dati usando la funzione di validazione numeri
+    const numeriIndovinati = validateNumbers(numeriscelti, number)
 
     // Genero messaggio di numeri indovinati
     const numeriIndovinatimex = `HAI INDOVINATO ${numeriIndovinati.length} NUMERI: ${numeriIndovinati.join(' - ')}`
-    console.log(numeriIndovinati)
 
-    // setto lo stile del testo del messaggio
-    messaggio.classList.add('text-success')
+    // debug numeri indovinati in console.log    
+    console.log('questi sono i numeri che sono stati indovinati',numeriIndovinati);
+
+    // setto lo stile del testo del messaggio in rosso
+    messaggio.classList.add('text-success');
     messaggio.classList.remove('text-danger');
 
     // se gli array sono entrambi vuoti significa che i numeri sono stati tutti indovinati
@@ -134,31 +117,25 @@ form.addEventListener('submit', (event) => {
         // inserisco messaggio in html
         messaggio.innerHTML = `${numeriIndovinatimex}`;
         
-        // console.log("HAI VINTO");
-
     } else if (numeriIndovinati.length === 4) {
 
         // inserisco messaggio in html
         messaggio.innerHTML = `${numeriIndovinatimex}` ;
-        // console.log("NE HAI INDOVINATE 4");
 
     } else if (numeriIndovinati.length === 3) {
 
         // inserisco messaggio in html
         messaggio.innerHTML = `${numeriIndovinatimex}`;
-        // console.log("NE HAI INDOVINATE 3");
 
     } else if (numeriIndovinati.length === 2) {
 
         // inserisco messaggio in html
         messaggio.innerHTML = `${numeriIndovinatimex}`;
-        // console.log("NE HAI INDOVINATE 2");
 
     }else if (numeriIndovinati.length === 1) {
 
         // inserisco messaggio in html
         messaggio.innerHTML = ` ${numeriIndovinatimex}`;
-        // console.log("NE HAI INDOVINATA 1");
 
     }else{
 
@@ -166,35 +143,32 @@ form.addEventListener('submit', (event) => {
         messaggio.innerHTML = 'NON HAI INDOVINATO NESSUN NUMERO';
 
         // modifico lo stile del testo
-        messaggio.classList.remove('text-success')
-        messaggio.classList.add('text-danger')
-        // console.log("LOSER");
+        messaggio.classList.remove('text-success');
+        messaggio.classList.add('text-danger');
     }
 
     // disabilita il click del bottone
-    button.disabled = true
+    button.disabled = true;
     // resetta il form
-    form.reset()
+    form.reset();
     }
 
 })
 
 
-
 // FUNCTIONS
-
-// funzione per generare numeri casuali con un min e un max number
+// funzione per generare numeri casuali in un range
 function randomNumberRange(min, max){
-    const numeroGenerato = Math.floor(Math.random() * (max - min + 1) + min)
-    return numeroGenerato
+    return Math.floor(Math.random() * (max - min + 1) + min); 
 }
 
 // funzione per generare numeri casuali unici
 function generateRandomNumbers(totalNumbers, min, max){
 
-    const randomNumbers = []; // array inizialmente vuoto che conterrà 5 numeri casuali
+    // creo un array vuoto da riempire
+    const randomNumbers = [];
 
-    // ciclo per geerare 5 numeri casuali unici
+    // ciclo per generar 'n' numeri casuali unici
     for (let i = 0; randomNumbers.length < totalNumbers; i++){
         const numeriesimo = randomNumberRange(min, max);
 
@@ -202,21 +176,14 @@ function generateRandomNumbers(totalNumbers, min, max){
         if(!randomNumbers.includes(numeriesimo)){
             // se non è presente lo aggiungo all'array
             randomNumbers.push(numeriesimo);
-
-            // Stampa il numero aggiunto debug( opzionale, per debug)
-            console.log(`Numero aggiunto: ${numeriesimo}`);
-        } else{
-
-            // Stampa se il numero è duplicato (opzionale, per debug)
-            // console.log(`Numero duplicato ignorato: ${numeriesimo}`);
-        }  
+        }
     }
     return randomNumbers;
-
 }
 
-// function validazione dei due array
-function validazione (arraycheck, arrayverify){
+
+// Funzione per validare l'array utente rispetto a quello generato
+function validateNumbers (arraycheck, arrayverify){
 
     // genero un array vuoto che immagazzina il risultato
     const result = [];
@@ -236,7 +203,7 @@ function validazione (arraycheck, arrayverify){
         }
 
     // ritornarmi l'array
-    return result
+    return result;
 }
 
 
