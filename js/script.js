@@ -9,7 +9,7 @@ const inputNumber = document.querySelectorAll ('#input-group input');// numeri s
 const button = document.querySelector('button'); //pulsante di invio dati
 const countDown = document.getElementById ('countdown'); //countdown
 const instructions = document.getElementById ('instructions'); //instruzione utente
-const listNumber = document.getElementById ('numbers-list'); //lista numerix
+const listNumber = document.getElementById ('numbers-list'); //lista numeri
 const messaggio = document.getElementById ('message'); // messaggio risultato
 
 
@@ -59,7 +59,8 @@ const contoAllaRovescia = setInterval(() => {
         // mostro l'output di countdown
         countDown.innerHTML = seconds;
     }
-}, 1000) 
+}, 1000);
+
 
 // Gestione del form
 form.addEventListener('submit', (event) => {
@@ -112,33 +113,11 @@ form.addEventListener('submit', (event) => {
     messaggio.classList.remove('text-danger');
 
     // se gli array sono entrambi vuoti significa che i numeri sono stati tutti indovinati
-    if (numeriIndovinati.length === 5) {
-
+    if (numeriIndovinati.length > 0) {
         // inserisco messaggio in html
         messaggio.innerHTML = `${numeriIndovinatimex}`;
-        
-    } else if (numeriIndovinati.length === 4) {
-
-        // inserisco messaggio in html
-        messaggio.innerHTML = `${numeriIndovinatimex}` ;
-
-    } else if (numeriIndovinati.length === 3) {
-
-        // inserisco messaggio in html
-        messaggio.innerHTML = `${numeriIndovinatimex}`;
-
-    } else if (numeriIndovinati.length === 2) {
-
-        // inserisco messaggio in html
-        messaggio.innerHTML = `${numeriIndovinatimex}`;
-
-    }else if (numeriIndovinati.length === 1) {
-
-        // inserisco messaggio in html
-        messaggio.innerHTML = ` ${numeriIndovinatimex}`;
 
     }else{
-
         // inserisco messaggio in html
         messaggio.innerHTML = 'NON HAI INDOVINATO NESSUN NUMERO';
 
@@ -195,7 +174,7 @@ function validateNumbers (arraycheck, arrayverify){
         const item = arraycheck[i];
 
             //se l'array che sto validando include gli elementi iesimi e tali elementi non sono gia stati inseriti nell'array risultato
-            if (arrayverify.includes(item) && !result.includes(item)) {
+            if (arrayverify.includes(item)) {
 
                 // salvami quegli elementi nell'array
                 result.push(item);
